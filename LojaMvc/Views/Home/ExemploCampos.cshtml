@@ -1,0 +1,154 @@
+﻿<h1>Melhor comida:</h1>
+<h2>Hamburguer</h2>
+<p>
+    Traduzido do inglês-Um hambúrguer, ou simplesmente hambúrguer, é um alimento que consiste em recheios
+    - geralmente uma empada de carne moída, geralmente bovina - colocada dentro de um pão fatiado ou pão.
+</p>
+<img src="https://classic.exame.com/wp-content/uploads/2020/05/mafe-studio-LV2p9Utbkbw-unsplash-1.jpg?quality=70&strip=info&w=1024" />
+<h3>:)</h3>
+
+<span>Lista de animes: </span>
+<ul>
+    <li>
+        Tokyo Ghoul
+    </li>
+    <li>
+        Digimon
+    </li>
+    <li>
+        Bleach
+    </li>
+</ul>
+
+<table border="1">
+    <thead>
+        <tr>
+            <th>Código</th>
+            <th>Nome</th>
+            <th>Ação</th>
+        </tr>
+    </thead>
+
+    <tbody>
+        <tr>
+            <td>1</td>
+            <td>Sakura</td>
+            <td>
+                <a href="">Editar</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<a href="https://www.kabum.com.br" target="_blank">Site kabum</a>
+
+<h3>Cadastro de personagem:</h3>
+<div>
+    <label for="nome">Nome</label>
+    <input type="text" id="nome"/>
+</div>
+
+<div>
+    <label for="idade">Idade</label>
+    <input type="number" id="idade"/>
+    <span style="display: inline" id="ano-nascimento"></span>
+</div>
+
+<div>
+    <label for="selos">Selos</label>
+    <select id="selos">
+        <option>Pássaro</option>
+        <option>Javali</option>
+        <option>Cão</option>
+        <option>Dragão</option>
+        <option>Boi</option>
+        <option>Tigre</option>
+    </select>
+</div>
+
+<div>
+    <label>Invocações</label>
+    <div>
+        <input type="checkbox" id="invocacoes-fukusaku"/>
+        <label for="invocacoes-fukusaku">Fukasaku</label>
+    </div>
+    
+    <div>
+        <input type="checkbox" id="invocacoes-gababunta"/>
+        <label for="invocacoes-gababunta">Gamabunta</label>
+    </div>
+</div>
+
+<div>
+    <span>Possui Biju?</span>
+</div>
+<div>
+    <input type="radio" name="possuiBiju" id="possui-biju-sim"/>
+    <label for="possui-biju-sim">Sim</label>
+</div>
+<div>
+    <input type="radio" name="possuiBiju" id="possui-biju-nao"/>
+    <label for="possui-biju-nao">Não</label>
+</div>
+
+<div>
+    <label for="data-nascimento">Data de nascimento</label>
+    <input type="date" id="data-nascimento"/>
+</div>
+
+<div>
+    <label for="senha">Senha</label>
+    <input type="password" id="senha"/>
+</div>
+
+<div>
+    <label for="imagem">Imagem perfil</label>
+    <input type="file" id="imagem"/>
+</div>
+
+<button type="button" onclick="calcularIdade()">
+    Calcular idade
+</button>
+
+<button type="button" id="button-calcular-idade">
+    Calcular idade
+</button>
+
+<script>
+    function calcularIdade() {
+        let nome = document.getElementById("nome").value;
+        let idade = parseInt(document.getElementById("idade").value);
+        let anoNascimento = calcularAnoNascimento(idade);
+        let mensagem = "Nome: " + nome + " tem " + idade + " anos de idade, nasceu no ano " + anoNascimento;
+
+        alert(mensagem);
+    }
+
+    document.getElementById("button-calcular-idade")
+        .addEventListener("click", () => calcularIdade());
+
+    function apresentarAnoNascimento() {
+        debugger;
+        let idade = parseInt(document.getElementById("idade").value);
+        if (!isNaN(idade)){
+            let anoNascimento = calcularAnoNascimento(idade);
+            let spanAnoNascimento = document.getElementById("ano-nascimento");
+            spanAnoNascimento.innerText = `Ano de Nascimento: ${anoNascimento}`;
+        }
+        else{
+            let spanAnoNascimento = document.getElementById("ano-nascimento");
+            spanAnoNascimento.innerText = "";
+            spanAnoNascimento.style.display = "none";
+        }
+    }
+
+    document.getElementById("idade").addEventListener(
+        "focusout", () => apresentarAnoNascimento());
+        
+
+    function calcularAnoNascimento(idade){
+        let anoAtual = new Date().getFullYear();
+        let anoNascimento = anoAtual - idade;
+        return anoNascimento;
+    }
+</script>
