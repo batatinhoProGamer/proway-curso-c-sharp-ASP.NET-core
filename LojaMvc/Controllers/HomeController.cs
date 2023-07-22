@@ -68,6 +68,7 @@ namespace LojaMvc.Controllers
             return Ok(mensagem);
         }
 
+        [Route("/home/imc")]
         public IActionResult Exercicio2()
         {
             return View();

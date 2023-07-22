@@ -1,0 +1,38 @@
+﻿<h1>
+    Lista de produtos
+</h1>
+
+<a href="/produto/cadastrar" class="btn btn-primary mb-2">
+    Cadastrar
+</a>
+
+<table class="table table-striped table-bordered">
+    <thead>
+        <th>Código</th>
+        <th>Nome</th>
+        <th>Preço Unitário</th>
+        <th>Ação</th>
+    </thead>
+    <tbody>
+        @foreach(var produto in ViewBag.produtos)
+        {
+            <tr>
+                <td>@produto.Id</td>
+                <td>@produto.Nome</td>
+                <td>@produto.PrecoUnitario</td>
+                <td>
+                    <a class="btn btn-outline-primary"
+                        href="/produto/editar?id=@produto.Id">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Editar
+                    </a>
+                    <a class="btn btn-outline-danger"
+                        href="/produto/apagar?id=@produto.Id">
+                        <i class="fa-solid fa-trash-can"></i>
+                        Apagar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
