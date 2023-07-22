@@ -1,0 +1,40 @@
+﻿<h1>
+    Lista de clientes
+</h1>
+
+<a href="/cliente/cadastrar" class="btn btn-primary mb-2">
+    Cadastrar
+</a>
+
+<table class="table table-striped table-bordered">
+    <thead>
+    <th>Código</th>
+    <th>Nome</th>
+    <th>CPF</th>
+    <th>Endereço</th>
+    <th>Ação</th>
+    </thead>
+    <tbody>
+        @foreach (var cliente in ViewBag.Clientes)
+        {
+            <tr>
+                <td>@cliente.Id</td>
+                <td>@cliente.Nome</td>
+                <td>@cliente.Cpf</td>
+                <td>@cliente.Endereco.Estado - @cliente.Endereco.Cidade</td>
+                <td>
+                    <a class="btn btn-outline-primary"
+                       href="/cliente/editar?id=@cliente.Id">
+                        <i class="fa-solid fa-pen-to-square"></i>
+                        Editar
+                    </a>
+                    <a class="btn btn-outline-danger"
+                       href="/cliente/apagar?id=@cliente.Id">
+                        <i class="fa-solid fa-trash-can"></i>
+                        Apagar
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

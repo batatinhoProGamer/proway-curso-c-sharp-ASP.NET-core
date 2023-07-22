@@ -1,4 +1,5 @@
-﻿using System.Data.SqlClient;
+﻿using LojaRepositorios.entidades;
+using System.Data.SqlClient;
 
 namespace LojaRepositorios.database
 {

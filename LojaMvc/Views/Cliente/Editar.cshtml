@@ -1,0 +1,60 @@
+﻿<form action="/cliente/editar?id=@ViewBag.Cliente.Id" method="post">
+    <div class="row">
+        <div class="col-12">
+            <label class="form-label" for="campo-nome">
+                Nome
+            </label>
+            <input class="form-control" type="text" id="campo-nome" name="nome" 
+                value="@ViewBag.Cliente.Nome"/>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <label class="form-label" for="campo-data-nascimento">
+                Data de nascimento
+            </label>
+            <input class="form-control" type="date" id="campo-data-nascimento" name="dataNascimento"
+                   value="@ViewBag.Cliente.DataNascimento.ToString("yyyy-MM-dd")" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <label class="form-label" for="campo-cpf">
+                CPF
+            </label>
+            <input class="form-control" required pattern="\d{3}.\d{3}.\d{3}-\d{2}" type="text" id="campo-cpf"
+                   name="cpf" value="@ViewBag.Cliente.Cpf" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <label class="form-label" for="campo-cep">
+                CEP
+            </label>
+            <input class="form-control" required pattern="\d{5}-\d{3}" type="text" id="campo-cep"
+                   name="cep" value="@ViewBag.Cliente.Endereco.Cep" />
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-12">
+            <label class="form-label" for="campo-numero-endereco">
+                Número de endereço
+            </label>
+            <input class="form-control" type="text" id="campo-numero-endereco"
+                   name="numeroEndereco" value="@ViewBag.Cliente.Endereco.Numero" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <button class="btn btn-success float-end" type="submit">
+                <i class="fa-solid fa-floppy-disk"></i>
+                Salvar
+            </button>
+        </div>
+    </div>
+</form>

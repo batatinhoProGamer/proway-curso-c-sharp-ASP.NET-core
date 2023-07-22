@@ -1,4 +1,5 @@
-﻿using LojaRepositorios.entidades;
+﻿using LojaRepositorios.database;
+using LojaRepositorios.entidades;
 using LojaServicos.servicos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -7,6 +8,11 @@ namespace LojaMvc.Controllers
     [Route("/produto")]
     public class ProdutoController : Controller
     {
+        public ProdutoController(LojaContexto contexto) 
+        {
+            var produtos = contexto.Set<Produto>().ToList();
+        }
+
         [HttpGet]
         public IActionResult Index()
         {
