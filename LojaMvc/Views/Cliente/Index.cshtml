@@ -6,6 +6,15 @@
     Cadastrar
 </a>
 
+<form action="/cliente" method="get">
+    <div class="row">
+        <div class="col">
+            <label class="form-label" for="campo-pesquisa">Pesquisa</label>
+            <input type="text" name="pesquisa" id="campo-pesquisa" value="@ViewBag.Pesquisa"/>
+        </div>
+    </div>
+</form>
+
 <table class="table table-striped table-bordered">
     <thead>
     <th>Código</th>

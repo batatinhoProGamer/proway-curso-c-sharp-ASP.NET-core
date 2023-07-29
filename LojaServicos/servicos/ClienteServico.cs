@@ -3,39 +3,39 @@ using LojaRepositorios.entidades;
 
 namespace LojaServicos.servicos
 {
-    public class ClienteServico
+    public class ClienteServico : IClienteServico
     {
-        private ClienteRepositorio repositorio { get; set; }
+        private readonly IClienteRepositorio _clienteRepositorio;
 
-        public ClienteServico()
+        public ClienteServico(IClienteRepositorio clienteRepositorio)
         {
-            repositorio = new ClienteRepositorio();
+            _clienteRepositorio = clienteRepositorio;
         }
 
         public void Cadastrar(Cliente cliente)
         {
-            repositorio.Cadastrar(cliente);
+            _clienteRepositorio.Cadastrar(cliente);
         }
 
         public void Apagar(int id)
         {
-            repositorio.Apagar(id);
+            _clienteRepositorio.Apagar(id);
         }
 
-        public List<Cliente> ObterTodos()
+        public List<Cliente> ObterTodos(string? pesquisa)
         {
-            var clientes = repositorio.ObterTodos();
+            var clientes = _clienteRepositorio.ObterTodos(pesquisa);
             return clientes;
         }
 
-        public Cliente ObterPorId(int id)
+        public Cliente? ObterPorId(int id)
         {
-            return repositorio.ObterPorId(id);
+            return _clienteRepositorio.ObterPorId(id);
         }
 
         public void Editar(Cliente cliente)
         {
-            repositorio.Editar(cliente);
+            _clienteRepositorio.Editar(cliente);
         }
     }
 }

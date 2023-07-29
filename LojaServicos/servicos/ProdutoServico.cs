@@ -3,13 +3,13 @@ using LojaRepositorios.repositorios;
 
 namespace LojaServicos.servicos
 {
-    public class ProdutoServico
+    public class ProdutoServico : IProdutoServico
     {
-        private readonly ProdutoRepositorio _produtoRepositorio;
+        private readonly IProdutoRepositorio _produtoRepositorio;
 
-        public ProdutoServico()
+        public ProdutoServico(IProdutoRepositorio produtoRepositorio)
         {
-            _produtoRepositorio = new ProdutoRepositorio();
+            _produtoRepositorio = produtoRepositorio;
         }
 
         public void Cadastrar(Produto produto)
@@ -17,10 +17,10 @@ namespace LojaServicos.servicos
             _produtoRepositorio.Cadastrar(produto);
         }
 
-        public List<Produto> ObterTodos()
+        public List<Produto> ObterTodos(string filtro)
         {
             // Obter a lista de produtos da tabela de produtos
-            var produtos = _produtoRepositorio.ObterTodos();
+            var produtos = _produtoRepositorio.ObterTodos(filtro);
             // Retornar a lista de produtos
             return produtos;
         }
@@ -32,7 +32,7 @@ namespace LojaServicos.servicos
             _produtoRepositorio.Apagar(id);
         }
 
-        public Produto ObterPorId(int id)
+        public Produto? ObterPorId(int id)
         {
             var produto = _produtoRepositorio.ObterPorId(id);
             return produto;

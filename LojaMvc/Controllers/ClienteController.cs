@@ -1,5 +1,4 @@
 ﻿using LojaRepositorios.entidades;
-using LojaRepositorios.repositorios;
 using LojaServicos.servicos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -10,12 +9,19 @@ namespace LojaMvc.Controllers
     [Route("/cliente")]
     public class ClienteController : Controller
     {
-        [HttpGet]
-        public IActionResult Index()
+        private readonly IClienteServico _clienteServico;
+
+        public ClienteController(IClienteServico clienteServico)
         {
-            var clienteServico = new ClienteServico();
-            var clientes = clienteServico.ObterTodos();
+            _clienteServico = clienteServico;
+        }
+
+        [HttpGet]
+        public IActionResult Index([FromQuery] string? pesquisa)
+        {
+            var clientes = _clienteServico.ObterTodos(pesquisa);
             ViewBag.Clientes = clientes;
+            ViewBag.Pesquisa = pesquisa;
 
             return View();
         }
@@ -53,8 +59,7 @@ namespace LojaMvc.Controllers
             cliente.Endereco.Complemento = complemento;
             cliente.Endereco.Numero = numero;
 
-            var clienteServico = new ClienteServico();
-            clienteServico.Cadastrar(cliente);
+            _clienteServico.Cadastrar(cliente);
 
             return RedirectToAction("index");
         }
@@ -63,8 +68,7 @@ namespace LojaMvc.Controllers
         [HttpGet]
         public IActionResult Apagar([FromQuery] int id)
         {
-            var clienteServico = new ClienteServico();
-            clienteServico.Apagar(id);
+            _clienteServico.Apagar(id);
             
             return RedirectToAction("index");
         }
@@ -73,8 +77,7 @@ namespace LojaMvc.Controllers
         [HttpGet]
         public IActionResult Editar([FromQuery] int id) 
         {
-            var clienteServico = new ClienteServico();
-            var cliente = clienteServico.ObterPorId(id);
+            var cliente = _clienteServico.ObterPorId(id);
             ViewBag.Cliente = cliente;
 
             return View();
@@ -98,8 +101,7 @@ namespace LojaMvc.Controllers
             cliente.Endereco = BuscarEnderecoPorCep(cep);
             cliente.Endereco.Numero = numeroEndereco;
 
-            var clienteServico = new ClienteServico();
-            clienteServico.Editar(cliente);
+            _clienteServico.Editar(cliente);
 
             return RedirectToAction("index");
         }

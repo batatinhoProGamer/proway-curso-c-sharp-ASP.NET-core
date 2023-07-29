@@ -1,5 +1,4 @@
-﻿using LojaRepositorios.database;
-using LojaRepositorios.entidades;
+﻿using LojaRepositorios.entidades;
 using LojaServicos.servicos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,16 +7,16 @@ namespace LojaMvc.Controllers
     [Route("/produto")]
     public class ProdutoController : Controller
     {
-        public ProdutoController(LojaContexto contexto) 
+        private readonly IProdutoServico _produtoServico;
+        public ProdutoController(IProdutoServico produtoServico) 
         {
-            var produtos = contexto.Set<Produto>().ToList();
+            _produtoServico = produtoServico;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var produtoServico = new ProdutoServico();
-            var produtos = produtoServico.ObterTodos();
+            var produtos = _produtoServico.ObterTodos("");
             ViewBag.produtos = produtos;
 
             return View();
@@ -36,13 +35,12 @@ namespace LojaMvc.Controllers
             [FromForm] string nome,
             [FromForm] decimal precoUnitario)
         {
-            var produtoServico = new ProdutoServico();
             var produto = new Produto();
             produto.Nome = nome;
             produto.PrecoUnitario = precoUnitario;
             produto.Quantidade = 1;
 
-            produtoServico.Cadastrar(produto);
+            _produtoServico.Cadastrar(produto);
 
             return RedirectToAction("Index");
         }
@@ -51,8 +49,7 @@ namespace LojaMvc.Controllers
         [HttpGet]
         public IActionResult Apagar([FromQuery] int id)
         {
-            var produtoServico = new ProdutoServico();
-            produtoServico.Apagar(id);
+            _produtoServico.Apagar(id);
 
             return RedirectToAction("Index");
         }
@@ -61,8 +58,7 @@ namespace LojaMvc.Controllers
         [HttpGet]
         public IActionResult Editar([FromQuery] int id)
         {
-            var produtoServico = new ProdutoServico();
-            var produto = produtoServico.ObterPorId(id);
+            var produto = _produtoServico.ObterPorId(id);
 
             ViewBag.Produto = produto;
 
@@ -82,8 +78,7 @@ namespace LojaMvc.Controllers
             produto.PrecoUnitario = precoUnitario;
             produto.Quantidade = 1;
 
-            var produtoServico = new ProdutoServico();
-            produtoServico.Editar(produto);
+            _produtoServico.Editar(produto);
 
             return RedirectToAction("Index");
         }

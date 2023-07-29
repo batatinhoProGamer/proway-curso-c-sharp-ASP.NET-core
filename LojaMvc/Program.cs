@@ -1,4 +1,6 @@
 using LojaRepositorios.database;
+using LojaRepositorios.repositorios;
+using LojaServicos.servicos;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,10 +8,16 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var connectionString = @"Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\73672\\source\\repos\\LojaWeb\\LojaRepositorios\\database\\WindowsFormsBancoDados.mdf;Integrated Security=True";
+var connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\73672\source\repos\LojaWeb\LojaRepositorios\database\WindowsFormsBancoDados.mdf;Integrated Security=True";
 
 builder.Services.AddDbContext<LojaContexto>(
     options => options.UseSqlServer(connectionString));
+
+builder.Services.AddScoped<IProdutoServico, ProdutoServico>();
+builder.Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
+
+builder.Services.AddScoped<IClienteServico, ClienteServico>();
+builder.Services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
 
 var app = builder.Build();
 
