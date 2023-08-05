@@ -1,22 +1,27 @@
-﻿﻿<form action="/cliente/cadastrar" method="post">
+﻿@model ClienteCadastroViewModel
+
+﻿<form asp-controller="Cliente" asp-action="Cadastrar" method="post">
     <div class="row">
         <div class="col">
-            <label class="form-label" for="campo-nome">Nome</label>
-            <input class="form-control" type="text" id="campo-nome" name="nome" required="required" />
+            <label class="form-label" asp-for="Nome"></label>
+            <input class="form-control" asp-for="Nome"/>
+            <span asp-validation-for="Nome" class="text-danger"></span>
         </div>
         <div class="col">
-            <label class="form-label" for="campo-cpf">CPF</label>
-            <input class="form-control" type="text" id="campo-cpf" name="cpf" required="required" />
+            <label class="form-label" asp-for="Cpf"></label>
+            <input class="form-control" asp-for="Cpf" />
+            <span asp-validation-for="Cpf" class="text-danger"></span>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <label class="form-label" for="campo-data-nascimento">Data de nascimento</label>
-            <input class="form-control" type="date" id="campo-data-nascimento" name="dataNascimento" required="required" />
+            <label class="form-label" asp-for="DataNascimento"></label>
+            <input class="form-control" asp-for="DataNascimento" />
+            <span asp-validation-for="DataNascimento" class="text-danger"></span>
         </div>
         <div class="col">
-            <label class="form-label" for="campo-endereco-estado">Estado</label>
-            <select class="form-select" id="campo-estado" name="estado" required="required">
+            <label class="form-label" asp-for="Estado"></label>
+            <select class="form-select" asp-for="Estado">
                 <option value="" disabled="disabled">Selecione</option>
                 <option value="AC">Acre</option>
                 <option value="AL">Alagoas</option>
@@ -46,38 +51,44 @@
                 <option value="SE">Sergipe</option>
                 <option value="TO">Tocantins</option>
             </select>
+            <span asp-validation-for="Estado" class="text-danger"></span>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <label class="form-label" for="campo-cidade">Cidade</label>
-            <input class="form-control" type="text" id="campo-cidade" name="cidade" required="required" />
+            <label class="form-label" asp-for="Cidade"></label>
+            <input class="form-control" asp-for="Cidade" />
+            <span asp-validation-for="Cidade" class="text-danger"></span>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <label class="form-label" for="campo-bairro">Bairro</label>
-            <input class="form-control" type="text" id="campo-bairro" name="bairro" required="required" />
+            <label class="form-label" asp-for="Bairro"></label>
+            <input class="form-control" asp-for="Bairro" />
+            <span asp-validation-for="Bairro" class="text-danger"></span>
         </div>
         <div class="col">
-            <label class="form-label" for="campo-cep">CEP</label>
-            <input class="form-control" type="text" id="campo-cep" name="cep" required="required" />
-        </div>
-    </div>
-    <div class="row">
-        <div class="col">
-            <label class="form-label" for="campo-logradouro">Logradouro</label>
-            <input class="form-control" type="text" id="campo-logradouro" name="logradouro" required="required" />
-        </div>
-        <div class="col">
-            <label class="form-label" for="campo-numero">Número</label>
-            <input class="form-control" type="text" id="campo-numero" name="numero" required="required" />
+            <label class="form-label" asp-for="Cep"></label>
+            <input class="form-control" asp-for="Cep" />
+            <span asp-validation-for="Cep" class="text-danger"></span>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <label class="form-label" for="campo-complemento">Complemento</label>
-            <textarea class="form-control" type="text" id="campo-complemento" name="complemento"></textarea>
+            <label class="form-label" asp-for="Logradouro"></label>
+            <input class="form-control" asp-for="Logradouro" />
+            <span asp-validation-for="Logradouro" class="text-danger"></span>
+        </div>
+        <div class="col">
+            <label class="form-label" asp-for="Numero"></label>
+            <input class="form-control" asp-for="Numero" />
+            <span asp-validation-for="Numero" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <label class="form-label" asp-for="Complemento"></label>
+            <textarea class="form-control" asp-for="Complemento"></textarea>
         </div>
     </div>
 

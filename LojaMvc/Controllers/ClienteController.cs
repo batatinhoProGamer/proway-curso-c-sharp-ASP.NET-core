@@ -1,8 +1,11 @@
-﻿using LojaRepositorios.entidades;
+﻿using LojaMvc.Models.Cliente;
+using LojaRepositorios.entidades;
+using LojaServicos.Dtos.Clientes;
 using LojaServicos.servicos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
+using System.Runtime.ConstrainedExecution;
 
 namespace LojaMvc.Controllers
 {
@@ -19,49 +22,80 @@ namespace LojaMvc.Controllers
         [HttpGet]
         public IActionResult Index([FromQuery] string? pesquisa)
         {
-            var clientes = _clienteServico.ObterTodos(pesquisa);
-            ViewBag.Clientes = clientes;
-            ViewBag.Pesquisa = pesquisa;
+            var dtos = _clienteServico.ObterTodos(pesquisa);
 
-            return View();
+            var viewModel = ConstruirClienteIndexViewModel(dtos, pesquisa);
+
+            return View(viewModel);
+        }
+
+        private object ConstruirClienteIndexViewModel(List<ClienteIndexDto> dtos, string? pesquisa)
+        {
+            var viewModel = new ClienteIndexViewModel
+            {
+                Pesquisa = pesquisa,
+                Clientes = ConstruirClienteViewModel(dtos)
+            };
+
+            return viewModel;
+        }
+
+        private List<ClienteViewModel> ConstruirClienteViewModel(List<ClienteIndexDto> dtos)
+        {
+            var viewModels = new List<ClienteViewModel>();
+            foreach (var dto in dtos)
+            {
+                viewModels.Add(new ClienteViewModel
+                {
+                    Id = dto.Id,
+                    Nome = dto.Nome,
+                    Endereco = dto.Endereco,
+                    Cpf = dto.Cpf
+                });
+            }
+
+            return viewModels;
         }
 
         [Route("cadastrar")]
         [HttpGet]
         public IActionResult Cadastrar()
         {
-            return View();
+            var viewModel = new ClienteCadastroViewModel();
+            return View(viewModel);
         }
 
         [Route("cadastrar")]
         [HttpPost]
-        public IActionResult Cadastrar(
-            [FromForm] string nome,
-            [FromForm] DateTime dataNascimento,
-            [FromForm] string cpf,
-            [FromForm] string cep,
-            [FromForm] string numero,
-            [FromForm] string estado,
-            [FromForm] string cidade,
-            [FromForm] string bairro,
-            [FromForm] string logradouro,
-            [FromForm] string complemento)
+        public IActionResult Cadastrar([FromForm] ClienteCadastroViewModel clienteCadastro)
         {
-            var cliente = new Cliente();
-            cliente.Nome = nome;
-            cliente.DataNascimento = dataNascimento;
-            cliente.Cpf = cpf;
-            cliente.Endereco.Estado = estado;
-            cliente.Endereco.Cep = cep;
-            cliente.Endereco.Cidade = cidade;
-            cliente.Endereco.Logradouro = logradouro;
-            cliente.Endereco.Bairro = bairro;
-            cliente.Endereco.Complemento = complemento;
-            cliente.Endereco.Numero = numero;
+            if (ModelState.IsValid == false)
+            {
+                return View("Cadastrar", clienteCadastro);
+            }
+
+            var cliente = ConstruirClienteCadastroDto(clienteCadastro);
 
             _clienteServico.Cadastrar(cliente);
 
             return RedirectToAction("index");
+        }
+
+        public ClienteCadastroDto ConstruirClienteCadastroDto(ClienteCadastroViewModel clienteCadastro)
+        {
+            return new ClienteCadastroDto
+            {
+                Nome = clienteCadastro.Nome,
+                DataNascimento = clienteCadastro.DataNascimento.GetValueOrDefault(),
+                Cpf = clienteCadastro.Cpf,
+                Estado = clienteCadastro.Estado,
+                Cep = clienteCadastro.Cep,
+                Cidade = clienteCadastro.Cidade,
+                Logradouro = clienteCadastro.Logradouro,
+                Bairro = clienteCadastro.Bairro,
+                Complemento = clienteCadastro.Complemento,
+                Numero = clienteCadastro.Numero
+            };
         }
 
         [Route("apagar")]

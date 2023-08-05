@@ -1,7 +1,7 @@
-﻿document.getElementById("campo-cep").addEventListener("focusout", () => buscarDados());
+﻿document.getElementById("Cep").addEventListener("focusout", () => buscarDados());
 
 function buscarDados() {
-    let cep = document.getElementById("campo-cep").value.trim().replace("-", "");
+    let cep = document.getElementById("Cep").value.trim().replace("-", "");
     //89070-260
     if (cep.length != 8) {
         return;
@@ -10,10 +10,10 @@ function buscarDados() {
     fetch(`https://viacep.com.br/ws/${cep}/json/`)
         .then((response) => response.json())
         .then((json) => {
-            document.getElementById("campo-cidade").value = json.localidade;
-            document.getElementById("campo-logradouro").value = json.logradouro;
-            document.getElementById("campo-bairro").value = json.bairro;
-            document.getElementById("campo-estado").value = json.uf;
-            document.getElementById("campo-numero").focus();
+            document.getElementById("Cidade").value = json.localidade;
+            document.getElementById("Logradouro").value = json.logradouro;
+            document.getElementById("Bairro").value = json.bairro;
+            document.getElementById("Estado").value = json.uf;
+            document.getElementById("Numero").focus();
         });
 }

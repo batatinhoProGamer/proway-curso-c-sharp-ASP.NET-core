@@ -1,4 +1,6 @@
-﻿<h1>
+﻿@model ClienteIndexViewModel
+
+<h1>
     Lista de clientes
 </h1>
 
@@ -10,7 +12,7 @@
     <div class="row">
         <div class="col">
             <label class="form-label" for="campo-pesquisa">Pesquisa</label>
-            <input type="text" name="pesquisa" id="campo-pesquisa" value="@ViewBag.Pesquisa"/>
+            <input type="text" name="pesquisa" id="campo-pesquisa" value="@Model.Pesquisa"/>
         </div>
     </div>
 </form>
@@ -24,13 +26,13 @@
     <th>Ação</th>
     </thead>
     <tbody>
-        @foreach (var cliente in ViewBag.Clientes)
+        @foreach (var cliente in Model.Clientes)
         {
             <tr>
                 <td>@cliente.Id</td>
                 <td>@cliente.Nome</td>
                 <td>@cliente.Cpf</td>
-                <td>@cliente.Endereco.Estado - @cliente.Endereco.Cidade</td>
+                <td>@cliente.Endereco</td>
                 <td>
                     <a class="btn btn-outline-primary"
                        href="/cliente/editar?id=@cliente.Id">

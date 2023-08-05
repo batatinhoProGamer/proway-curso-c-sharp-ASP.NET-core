@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-var connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\73672\source\repos\LojaWeb\LojaRepositorios\database\WindowsFormsBancoDados.mdf;Integrated Security=True";
+var connectionString = @"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=C:\Users\73672\Desktop\proway-curso-c-sharp-ASP.NET-core\LojaRepositorios\database\WindowsFormsBancoDados.mdf;Integrated Security=True";
 
 builder.Services.AddDbContext<LojaContexto>(
     options => options.UseSqlServer(connectionString));
