@@ -8,6 +8,9 @@ namespace LojaRepositorios.database
         public LojaContexto(DbContextOptions options): base(options)
         { 
         }
+        public LojaContexto()
+        {
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new ProdutoMapeamento());

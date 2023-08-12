@@ -17,6 +17,12 @@ namespace LojaRepositorios.repositorios
             _dbSet = _lojaContexto.Set<Cliente>();
         }
 
+        public Cliente? ObterPorCpf(string Cpf) =>
+            _dbSet.FirstOrDefault(x => x.Cpf == Cpf);
+
+        public bool ExisteComCpf(string Cpf) =>
+            _dbSet.Any(x => x.Cpf == Cpf);
+
         public void Cadastrar(Cliente cliente)
         {
             _dbSet.Add(cliente);

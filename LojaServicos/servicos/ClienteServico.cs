@@ -16,6 +16,11 @@ namespace LojaServicos.servicos
         public void Cadastrar(ClienteCadastroDto dto)
         {
             var cliente = ConstruirCliente(dto);
+
+            var clienteExistenteComCpf = _clienteRepositorio.ObterPorCpf(dto.Cpf);
+            if (clienteExistenteComCpf != null)
+                throw new Exception($"Cliente já cadastrado com CPF {dto.Cpf}");
+
             _clienteRepositorio.Cadastrar(cliente);
         }
 
