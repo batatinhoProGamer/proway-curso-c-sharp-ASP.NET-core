@@ -70,6 +70,56 @@ namespace LojaWebTestes.UnitTests.LojaServicos.Servicos
             clienteRepositorio.DidNotReceive().Cadastrar(Arg.Any<Cliente>());
         }
 
+        [Fact]
+        public void TesteObterTodosSucesso()
+        {
+            var clienteRepositorio = Substitute.For<IClienteRepositorio>();
+
+            var clienteServico = new ClienteServico(clienteRepositorio);
+
+            var clientesEsperados = new List<Cliente>
+            {
+                new Cliente
+                {
+                    Nome = "Pedro",
+                    Id = 8001,
+                    Cpf = "123.456.789-10",
+                    Endereco = new Endereco
+                    {
+                        Estado = "SC",
+                        Cidade = "Timbó"
+                    }
+                },
+                new Cliente
+                {
+                    Nome = "Júlia",
+                    Id = 8002,
+                    Cpf = "234.567.890-12",
+                    Endereco = new Endereco
+                    {
+                        Estado = "SC",
+                        Cidade = "Blumenau"
+                    }
+                }
+            };
+
+            clienteRepositorio.ObterTodos(Arg.Is("")).Returns(clientesEsperados);
+
+            var clientes = clienteServico.ObterTodos("");
+
+            Assert.Equal(2, clientes.Count());
+
+            Assert.Equal("Pedro", clientes[0].Nome);
+            Assert.Equal("123.456.789-10", clientes[0].Cpf);
+            Assert.Equal(8001, clientes[0].Id);
+            Assert.Equal("SC - Timbó", clientes[0].Endereco);
+
+            Assert.Equal("Júlia", clientes[1].Nome);
+            Assert.Equal("234.567.890-12", clientes[1].Cpf);
+            Assert.Equal(8002, clientes[1].Id);
+            Assert.Equal("SC - Blumenau", clientes[1].Endereco);
+        }
+
         public bool ReccebeuClienteEsperado(Cliente cliente)
         {
             Assert.Equal("Júlio", cliente.Nome);
