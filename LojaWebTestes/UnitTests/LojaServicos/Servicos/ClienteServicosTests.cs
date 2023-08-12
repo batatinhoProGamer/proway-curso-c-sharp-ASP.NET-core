@@ -1,8 +1,10 @@
-﻿using LojaRepositorios.database;
+﻿using FluentAssertions;
+using LojaRepositorios.database;
 using LojaRepositorios.entidades;
 using LojaRepositorios.repositorios;
 using LojaServicos.Dtos.Clientes;
 using LojaServicos.servicos;
+using LojaWebTestes.Builders.Entidades;
 using NSubstitute;
 using NSubstitute.ReturnsExtensions;
 using System.Runtime.ConstrainedExecution;
@@ -12,12 +14,18 @@ namespace LojaWebTestes.UnitTests.LojaServicos.Servicos
 {
     public class ClienteServicosTests
     {
+        private readonly ClienteServico _clienteServico;
+        private readonly IClienteRepositorio _clienteRepositorio;
+
+        public ClienteServicosTests()
+        {
+            _clienteRepositorio = Substitute.For<IClienteRepositorio>();
+            _clienteServico = new ClienteServico(_clienteRepositorio);
+        }
+
         [Fact]
         public void TestCadastrarClienteNaoCadastradoAnteriormenteSucesso()
         {
-            var clienteRepositorioMock = Substitute.For<IClienteRepositorio>();
-            var clienteServico = new ClienteServico(clienteRepositorioMock);
-
             var clienteDto = new ClienteCadastroDto 
             { 
                 Nome = "Júlio",
@@ -32,27 +40,22 @@ namespace LojaWebTestes.UnitTests.LojaServicos.Servicos
                 Numero = "200"
             };
 
-            clienteRepositorioMock.ObterPorCpf(Arg.Is(clienteDto.Cpf)).ReturnsNull();
+            _clienteRepositorio.ObterPorCpf(Arg.Is(clienteDto.Cpf)).ReturnsNull();
 
-            clienteServico.Cadastrar(clienteDto);
+            _clienteServico.Cadastrar(clienteDto);
 
-            clienteRepositorioMock.Received(1).ObterPorCpf(Arg.Is(clienteDto.Cpf));
+            _clienteRepositorio.Received(1).ObterPorCpf(Arg.Is(clienteDto.Cpf));
 
-            clienteRepositorioMock
+            _clienteRepositorio
                 .Received(1)
                 .Cadastrar(Arg.Is<Cliente>(clienteParametro =>
                     ReccebeuClienteEsperado(clienteParametro)
                     ));
-
         }
 
         [Fact]
         public void TesteCadastrarClienteJaExistente()
         {
-            var clienteRepositorio = Substitute.For<IClienteRepositorio>();
-
-            var clienteServico = new ClienteServico(clienteRepositorio);
-
             var clienteCadastroDto = new ClienteCadastroDto
             {
                 Nome = "Pedro",
@@ -60,79 +63,64 @@ namespace LojaWebTestes.UnitTests.LojaServicos.Servicos
             };
 
             var clienteExistente = new Cliente();
-            clienteRepositorio.ObterPorCpf(Arg.Is("234.567.890-12")).Returns<Cliente>(clienteExistente);
+            _clienteRepositorio.ObterPorCpf(Arg.Is("234.567.890-12")).Returns<Cliente>(clienteExistente);
 
-            Action acao = () => clienteServico.Cadastrar(clienteCadastroDto);
+            Action acao = () => _clienteServico.Cadastrar(clienteCadastroDto);
 
-            var excecao = Assert.Throws<Exception>(acao);
-            Assert.Equal("Cliente já cadastrado com CPF 234.567.890-12", excecao.Message);
+            var excecaoLancada = acao.Should().Throw<Exception>();
+            excecaoLancada.WithMessage("Cliente já cadastrado com CPF 234.567.890-12");
 
-            clienteRepositorio.DidNotReceive().Cadastrar(Arg.Any<Cliente>());
+            _clienteRepositorio.DidNotReceive().Cadastrar(Arg.Any<Cliente>());
         }
 
         [Fact]
         public void TesteObterTodosSucesso()
         {
-            var clienteRepositorio = Substitute.For<IClienteRepositorio>();
-
-            var clienteServico = new ClienteServico(clienteRepositorio);
-
             var clientesEsperados = new List<Cliente>
             {
-                new Cliente
-                {
-                    Nome = "Pedro",
-                    Id = 8001,
-                    Cpf = "123.456.789-10",
-                    Endereco = new Endereco
-                    {
-                        Estado = "SC",
-                        Cidade = "Timbó"
-                    }
-                },
-                new Cliente
-                {
-                    Nome = "Júlia",
-                    Id = 8002,
-                    Cpf = "234.567.890-12",
-                    Endereco = new Endereco
-                    {
-                        Estado = "SC",
-                        Cidade = "Blumenau"
-                    }
-                }
+                new ClienteBuilder()
+                    .ComNome("Pedro")
+                    .ComId(8001)
+                    .ComCpf("123.456.789-10")
+                    .ComEstado("SC")
+                    .ComCidade("Timbó")
+                    .Construir(),
+
+                new ClienteBuilder().Construir()
             };
 
-            clienteRepositorio.ObterTodos(Arg.Is("")).Returns(clientesEsperados);
+            _clienteRepositorio.ObterTodos(Arg.Is("")).Returns(clientesEsperados);
 
-            var clientes = clienteServico.ObterTodos("");
+            var clientes = _clienteServico.ObterTodos("");
 
-            Assert.Equal(2, clientes.Count());
+            clientes.Should().HaveCount(2);
 
-            Assert.Equal("Pedro", clientes[0].Nome);
-            Assert.Equal("123.456.789-10", clientes[0].Cpf);
-            Assert.Equal(8001, clientes[0].Id);
-            Assert.Equal("SC - Timbó", clientes[0].Endereco);
+            clientes[0].Nome.Should().Be("Pedro");
+            clientes[0].Cpf.Should().Be("123.456.789-10");
+            clientes[0].Id.Should().Be(8001);
+            clientes[0].Endereco.Should().Be("SC - Timbó");
 
-            Assert.Equal("Júlia", clientes[1].Nome);
-            Assert.Equal("234.567.890-12", clientes[1].Cpf);
-            Assert.Equal(8002, clientes[1].Id);
-            Assert.Equal("SC - Blumenau", clientes[1].Endereco);
+            clientes[1].Nome.Should().Be("Allan de Souza");
+            clientes[1].Cpf.Should().Be("123.456.789-00");
+            clientes[1].Id.Should().Be(9999);
+            clientes[1].Endereco.Should().Be("SC - Gaspar");
         }
 
         public bool ReccebeuClienteEsperado(Cliente cliente)
         {
-            Assert.Equal("Júlio", cliente.Nome);
-            Assert.Equal("123.456.789-10", cliente.Cpf);
-            Assert.Equal(new DateTime(2000, 6, 20), cliente.DataNascimento);
-            Assert.Equal("PA", cliente.Endereco.Estado);
-            Assert.Equal("Boa Vista", cliente.Endereco.Cidade);
-            Assert.Equal("Bairro das Avenidas", cliente.Endereco.Bairro);
-            Assert.Equal("90909-90", cliente.Endereco.Cep);
-            Assert.Equal("Casa Verde", cliente.Endereco.Complemento);
-            Assert.Equal("Rua XV de Outubro", cliente.Endereco.Logradouro);
-            Assert.Equal("200", cliente.Endereco.Numero);
-            Assert.Equal(0, cliente.Id);
+            cliente.Nome.Should().Be("Júlio");
+
+            cliente.Nome.Should().Be("Júlio");
+            cliente.Cpf.Should().Be("123.456.789-10");
+            cliente.DataNascimento.Should().Be(new DateTime(2000, 6, 20));
+            cliente.Endereco.Estado.Should().Be("PA");
+            cliente.Endereco.Cidade.Should().Be("Boa Vista");
+            cliente.Endereco.Bairro.Should().Be("Bairro das Avenidas");
+            cliente.Endereco.Cep.Should().Be("90909-90");
+            cliente.Endereco.Complemento.Should().Be("Casa Verde");
+            cliente.Endereco.Logradouro.Should().Be("Rua XV de Outubro");
+            cliente.Endereco.Numero.Should().Be("200");
+            cliente.Id.Should().Be(0);
 
             return true;
         }

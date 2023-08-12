@@ -43,17 +43,7 @@ namespace LojaServicos.servicos
             var dtos = new List<ClienteIndexDto>();
 
             foreach (var cliente in clientes)
-            {
-                var dto = new ClienteIndexDto 
-                {
-                    Id = cliente.Id,
-                    Nome = cliente.Nome,
-                    Cpf = cliente.Cpf,
-                    Endereco = $"{cliente.Endereco.Estado} - {cliente.Endereco.Cidade}"
-                };
-
-                dtos.Add(dto);
-            }
+                dtos.Add(ClienteIndexDto.ConstruirComEntidade(cliente));
 
             return dtos;
         }
