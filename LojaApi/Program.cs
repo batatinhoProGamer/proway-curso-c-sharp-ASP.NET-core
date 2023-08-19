@@ -1,8 +1,7 @@
-using LojaRepositorios.database;
-using LojaRepositorios.repositorios;
-using LojaServicos.servicos;
+using FluentValidation;
+using LojaApi.Controllers;
+using LojaApi.Validators;
 using LojaServicos.DependencyInjections;
-using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +14,8 @@ builder.Services
     .AddSwaggerGen()
     .AddServicesDependencyInjection()
     .AddRepositoriesDependencyInjection(builder.Configuration);
+
+builder.Services.AddScoped<IValidator<ProdutoCreateModel>, ProdutoValidator>();
 
 var app = builder.Build();
 

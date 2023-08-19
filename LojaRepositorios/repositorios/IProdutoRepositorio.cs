@@ -4,7 +4,7 @@ namespace LojaRepositorios.repositorios
 {
     public interface IProdutoRepositorio
     {
-        void Cadastrar(Produto produto);
+        int Cadastrar(Produto produto);
         void Editar(Produto produto);
         void Apagar(int id);
         List<Produto> ObterTodos(string pesquisa);

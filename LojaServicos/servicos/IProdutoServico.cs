@@ -1,13 +1,14 @@
 ﻿using LojaRepositorios.entidades;
+using LojaServicos.Dtos.Produtos;
 
 namespace LojaServicos.servicos
 {
     public interface IProdutoServico
     {
         void Apagar(int id);
-        void Cadastrar(Produto produto);
-        void Editar(Produto produto);
-        Produto? ObterPorId(int id);
-        List<Produto> ObterTodos(string filtro);
+        int Cadastrar(ProdutoCadastrarDto produto);
+        void Editar(ProdutoEditarDto produto);
+        ProdutoIndexDto? ObterPorId(int id);
+        List<ProdutoIndexDto> ObterTodos(string filtro);
     }
 }

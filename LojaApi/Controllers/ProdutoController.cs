@@ -1,4 +1,9 @@
-﻿using LojaRepositorios.entidades;
+﻿using FluentValidation;
+using FluentValidation.Results;
+using LojaApi.Validators;
+using LojaRepositorios.entidades;
+using LojaServicos.Dtos.Produtos;
+using LojaServicos.Exceptions;
 using LojaServicos.servicos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +13,15 @@ namespace LojaApi.Controllers
     public class ProdutoController : Controller
     {
         private readonly IProdutoServico _produtoServico;
+        private readonly IValidator<ProdutoCreateModel> _produtoValidator;
 
-        public ProdutoController(IProdutoServico produtoServico)
+        public ProdutoController(
+            IProdutoServico produtoServico,
+            IValidator<ProdutoCreateModel> produtoValidator
+            )
         {
             _produtoServico = produtoServico;
+            _produtoValidator = produtoValidator;
         }
 
         [HttpGet]
@@ -25,19 +35,31 @@ namespace LojaApi.Controllers
         public IActionResult GetById(int id)
         {
             var produto = _produtoServico.ObterPorId(id);
+            if (produto == null)
+            {
+                return NotFound();
+            }
             return Ok(produto);
         }
 
         [HttpPost]
         public IActionResult Create([FromBody]ProdutoCreateModel produtoCreateModel)
         {
-            var produto = new Produto
+            var validacao = _produtoValidator.Validate(produtoCreateModel);
+
+            if (!validacao.IsValid)
+            {
+                var errosDetalhes = ObterDadosValidacao(validacao.Errors);
+                return UnprocessableEntity(errosDetalhes);
+            }
+
+            var dto = new ProdutoCadastrarDto
             {
                 Nome = produtoCreateModel.Nome.Trim(),
                 PrecoUnitario = produtoCreateModel.PrecoUnitario,
                 Quantidade = produtoCreateModel.Quantidade
             };
-            _produtoServico.Cadastrar(produto);
+            _produtoServico.Cadastrar(dto);
             return Ok();
         }
 
@@ -51,15 +73,41 @@ namespace LojaApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody]ProdutoUpdateModel produtoUpdateModel)
         {
-            var produto = new Produto
+            var dto = new ProdutoEditarDto
             {
                 Id = id,
                 Nome = produtoUpdateModel.Nome.Trim(),
                 PrecoUnitario = produtoUpdateModel.PrecoUnitario,
                 Quantidade = produtoUpdateModel.Quantidade
             };
-            _produtoServico.Editar(produto);
+
+            try
+            {
+                _produtoServico.Editar(dto);
+            }
+            catch (EntidadeNaoEncontrada)
+            {
+                return NotFound();
+            }
+
             return Ok();
+        }
+
+        private List<object> ObterDadosValidacao(List<ValidationFailure> errors)
+        {
+            var dados = new List<object>();
+
+            foreach(var error in errors)
+            {
+                var errorDetail = new
+                {
+                    Field = error.PropertyName,
+                    Message = error.ErrorMessage
+                };
+                dados.Add(errorDetail);
+            }
+
+            return dados;
         }
     }
 
