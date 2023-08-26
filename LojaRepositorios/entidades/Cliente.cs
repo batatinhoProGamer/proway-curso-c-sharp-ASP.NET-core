@@ -7,10 +7,5 @@
         public string Cpf { get; set; }
         public DateTime DataNascimento { get; set; }
         public Endereco Endereco { get; set; }
-
-        public Cliente()
-        {
-            Endereco = new Endereco();
-        }
     }
 }
