@@ -1,4 +1,7 @@
-﻿<h1>
+﻿@using LojaServicos.Dtos.Produtos;
+@model List<ProdutoIndexDto>
+
+<h1>
     Lista de produtos
 </h1>
 
@@ -14,7 +17,7 @@
         <th>Ação</th>
     </thead>
     <tbody>
-        @foreach(var produto in ViewBag.produtos)
+        @foreach(var produto in Model)
         {
             <tr>
                 <td>@produto.Id</td>

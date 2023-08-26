@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using LojaApi.Controllers;
+using LojaApi.Models.Produto;
 
 namespace LojaApi.Validators
 {
@@ -16,10 +17,6 @@ namespace LojaApi.Validators
                 .WithMessage("{PropertyName} deve conter no mínimo {MinLenght} caracteres")
                 .MaximumLength(40)
                 .WithMessage("{PropertyName} deve conter no máximo {MaxLenght} caracteres");
-
-            RuleFor(x => x.Quantidade)
-                .GreaterThan(0)
-                .WithMessage("Quantidade deve ser maior que 0");
 
             RuleFor(x => x.PrecoUnitario) 
                 .GreaterThan(0)

@@ -1,4 +1,7 @@
-﻿using LojaRepositorios.entidades;
+﻿using AutoMapper;
+using LojaMvc.Models.Produto;
+using LojaRepositorios.entidades;
+using LojaServicos.Dtos.Produtos;
 using LojaServicos.servicos;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,39 +11,39 @@ namespace LojaMvc.Controllers
     public class ProdutoController : Controller
     {
         private readonly IProdutoServico _produtoServico;
-        public ProdutoController(IProdutoServico produtoServico) 
+        private readonly IMapper _mapper;
+
+        public ProdutoController(IProdutoServico produtoServico, IMapper mapper) 
         {
             _produtoServico = produtoServico;
+            _mapper = mapper;
         }
 
         [HttpGet]
         public IActionResult Index()
         {
-            var produtos = _produtoServico.ObterTodos("");
-            ViewBag.produtos = produtos;
+            var produtosIndexDtos = _produtoServico.ObterTodos("");
 
-            return View();
+            return View(produtosIndexDtos);
         }
 
         [Route("cadastrar")]
         [HttpGet]
         public IActionResult Cadastrar()
         {
-            return View();
+            var model = new ProdutoCadastroViewModel();
+
+            return View(model);
         }
 
         [Route("cadastrar")]
         [HttpPost]
         public IActionResult Cadastrar(
-            [FromForm] string nome,
-            [FromForm] decimal precoUnitario)
+            [FromForm] ProdutoCadastroViewModel model)
         {
-            var produto = new Produto();
-            produto.Nome = nome;
-            produto.PrecoUnitario = precoUnitario;
-            produto.Quantidade = 1;
+            var produtoCadastrarDto = _mapper.Map<ProdutoCadastrarDto>(model);
 
-            _produtoServico.Cadastrar(produto);
+            _produtoServico.Cadastrar(produtoCadastrarDto);
 
             return RedirectToAction("Index");
         }
@@ -58,27 +61,21 @@ namespace LojaMvc.Controllers
         [HttpGet]
         public IActionResult Editar([FromQuery] int id)
         {
-            var produto = _produtoServico.ObterPorId(id);
+            var produtoIndexDto = _produtoServico.ObterPorId(id);
 
-            ViewBag.Produto = produto;
+            var produtoEditarViewModel = _mapper.Map<ProdutoEditarViewModel>(produtoIndexDto);
 
-            return View();
+            return View(produtoEditarViewModel);
         }
 
         [Route("editar")]
         [HttpPost]
         public IActionResult Editar(
-            [FromQuery] int id,
-            [FromForm] string nome,
-            [FromForm] decimal precoUnitario)
+            [FromForm] ProdutoEditarViewModel model)
         {
-            var produto = new Produto();
-            produto.Id = id;
-            produto.Nome = nome;
-            produto.PrecoUnitario = precoUnitario;
-            produto.Quantidade = 1;
+            var produtoEditarDto = _mapper.Map<ProdutoEditarDto>(model);
 
-            _produtoServico.Editar(produto);
+            _produtoServico.Editar(produtoEditarDto);
 
             return RedirectToAction("Index");
         }

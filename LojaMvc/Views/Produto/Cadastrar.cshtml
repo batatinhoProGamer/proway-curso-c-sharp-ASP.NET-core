@@ -1,18 +1,18 @@
-﻿<form action="/produto/cadastrar" method="post">
+﻿@using LojaMvc.Models.Produto;
+@model ProdutoCadastroViewModel
+
+
+<form action="cadastrar" method="post">
     <div class="row">
         <div class="col-12">
-            <label class="form-label" for="campo-nome">
-                Nome
-            </label>
-            <input class="form-control" type="text" id="campo-nome" name="nome"/>
+            <label class="form-label" asp-for="Nome"></label>
+            <input class="form-control" asp-for="Nome"/>
         </div>
     </div> 
     <div class="row mb-2">
         <div class="col-12">
-            <label class="form-label" for="campo-preco-unitario">
-                Preço unitário
-            </label>
-            <input class="form-control" type="text" id="campo-preco-unitario" name="precoUnitario" />
+            <label class="form-label" asp-for="PrecoUnitario"></label>
+            <input class="form-control" asp-for="PrecoUnitario" />
         </div>
     </div>
 

@@ -72,7 +72,6 @@ namespace LojaServicos.servicos
             {
                 Id = x.Id,
                 Nome = x.Nome,
-                Quantidade = x.Quantidade,
                 PrecoUnitario = x.PrecoUnitario
             };
         }
@@ -82,7 +81,6 @@ namespace LojaServicos.servicos
             return new Produto
             {
                 Nome = dto.Nome,
-                Quantidade = dto.Quantidade,
                 PrecoUnitario = dto.PrecoUnitario
             };
 
@@ -91,7 +89,6 @@ namespace LojaServicos.servicos
         private Produto AtualizarProduto(ProdutoEditarDto dto, Produto produto)
         {
             produto.Nome = dto.Nome;
-            produto.Quantidade = dto.Quantidade;
             produto.PrecoUnitario = dto.PrecoUnitario;
 
             return produto;

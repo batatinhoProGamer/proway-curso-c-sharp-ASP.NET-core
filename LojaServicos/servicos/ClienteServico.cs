@@ -1,21 +1,24 @@
 ﻿using LojaRepositorios.repositorios;
 using LojaRepositorios.entidades;
 using LojaServicos.Dtos.Clientes;
+using AutoMapper;
 
 namespace LojaServicos.servicos
 {
     public class ClienteServico : IClienteServico
     {
         private readonly IClienteRepositorio _clienteRepositorio;
+        private readonly IMapper _mapper;
 
-        public ClienteServico(IClienteRepositorio clienteRepositorio)
+        public ClienteServico(IClienteRepositorio clienteRepositorio, IMapper mapper)
         {
             _clienteRepositorio = clienteRepositorio;
+            _mapper = mapper;
         }
 
         public void Cadastrar(ClienteCadastroDto dto)
         {
-            var cliente = ConstruirCliente(dto);
+            var cliente = _mapper.Map<Cliente>(dto);
 
             var clienteExistenteComCpf = _clienteRepositorio.ObterPorCpf(dto.Cpf);
             if (clienteExistenteComCpf != null)
@@ -56,26 +59,6 @@ namespace LojaServicos.servicos
         public void Editar(Cliente cliente)
         {
             _clienteRepositorio.Editar(cliente);
-        }
-
-        private Cliente ConstruirCliente(ClienteCadastroDto dto)
-        {
-            return new Cliente
-            {
-                Nome = dto.Nome,
-                DataNascimento = dto.DataNascimento,
-                Cpf = dto.Cpf,
-                Endereco = new Endereco
-                {
-                    Estado = dto.Estado,
-                    Cep = dto.Cep,
-                    Cidade = dto.Cidade,
-                    Logradouro = dto.Logradouro,
-                    Bairro = dto.Bairro,
-                    Numero = dto.Numero,
-                    Complemento = dto.Complemento
-                }
-            };
         }
     }
 }
