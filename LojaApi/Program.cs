@@ -3,7 +3,9 @@ using LojaApi.Controllers;
 using LojaApi.DependencyInjections;
 using LojaApi.Models.Produto;
 using LojaApi.Validators;
+using LojaRepositorios.database;
 using LojaServicos.DependencyInjections;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -20,6 +22,8 @@ builder.Services
 
 builder.Services.AddScoped<IValidator<ProdutoCreateModel>, ProdutoValidator>();
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -29,10 +33,21 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.MapHealthChecks("healthz");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+using(var scopo = app.Services.CreateScope())
+{
+    var contexto = scopo.ServiceProvider.GetService<LojaContexto>();
+    if (contexto != null)
+    {
+        contexto.Database.Migrate();
+    }
+}
 
 app.Run();
