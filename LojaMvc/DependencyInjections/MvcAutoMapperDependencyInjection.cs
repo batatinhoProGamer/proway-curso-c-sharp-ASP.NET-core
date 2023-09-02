@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using LojaMvc.Mappers;
 using LojaMvc.Models.Produto;
 using LojaServicos.Dtos.Produtos;
 
@@ -13,6 +14,7 @@ namespace LojaMvc.DependencyInjections
                 x.CreateMap<ProdutoCadastroViewModel, ProdutoCadastrarDto>();
                 x.CreateMap<ProdutoIndexDto, ProdutoEditarViewModel>();
                 x.CreateMap<ProdutoEditarViewModel, ProdutoEditarDto>();
+                x.AddProfile<AutenticacaoMapper>();
             });
 
             var mapper = mapperConfiguration.CreateMapper();

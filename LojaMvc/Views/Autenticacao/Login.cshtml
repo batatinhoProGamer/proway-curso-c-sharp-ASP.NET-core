@@ -1,0 +1,21 @@
+﻿@model AutenticacaoViewModel
+
+@{
+    Layout = "_LayoutPublico";
+}
+
+<form asp-action="Login" method="post">
+    <h1 class="h3 mb-3 fw-normal">Loja Web</h1>
+    
+    <div class="form-floating">
+        <input class="form-control" asp-for="Email" placeholder="name@example.com">
+        <label asp-for="Email">E-mail</label>
+    </div>
+    
+    <div class="form-floating">
+        <input class="form-control" asp-for="Senha" placeholder="Senha">
+        <label fasp-for="Senha">Password</label>
+    </div>
+
+    <button class="w-100 btn btn-lg btn-primary" type="submit">Sign in</button>
+</form>

@@ -134,12 +134,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:7272/clientes",
-							"protocol": "https",
+							"raw": "{{host-api}}/clientes",
 							"host": [
-								"localhost"
+								"{{host-api}}"
 							],
-							"port": "7272",
 							"path": [
 								"clientes"
 							]
@@ -153,12 +151,10 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:7272/clientes/1",
-							"protocol": "https",
+							"raw": "{{host-api}}/clientes/1",
 							"host": [
-								"localhost"
+								"{{host-api}}"
 							],
-							"port": "7272",
 							"path": [
 								"clientes",
 								"1"
@@ -182,12 +178,10 @@
 							}
 						},
 						"url": {
-							"raw": "https://localhost:7272/clientes",
-							"protocol": "https",
+							"raw": "{{host-api}}/clientes",
 							"host": [
-								"localhost"
+								"{{host-api}}"
 							],
-							"port": "7272",
 							"path": [
 								"clientes"
 							]
@@ -201,15 +195,45 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "https://localhost:7272/clientes/1",
-							"protocol": "https",
+							"raw": "{{host-api}}/clientes/1",
 							"host": [
-								"localhost"
+								"{{host-api}}"
 							],
-							"port": "7272",
 							"path": [
 								"clientes",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Autenticacao",
+			"item": [
+				{
+					"name": "login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"edshow.silva@gmail.com\",\r\n    \"senha\": \"1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host-api}}/autenticacao/login",
+							"host": [
+								"{{host-api}}"
+							],
+							"path": [
+								"autenticacao",
+								"login"
 							]
 						}
 					},

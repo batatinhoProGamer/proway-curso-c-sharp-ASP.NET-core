@@ -36,11 +36,9 @@ if (app.Environment.IsDevelopment())
 
 app.MapHealthChecks("healthz");
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.UseSession();
+app.UseHttpsRedirection()
+    .UseAuthorization()
+    .UseSession();
 
 app.MapControllers();
 

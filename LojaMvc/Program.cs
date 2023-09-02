@@ -1,8 +1,10 @@
 using LojaMvc.DependencyInjections;
+using LojaMvc.Middlewares;
 using LojaRepositorios.database;
 using LojaRepositorios.DependencyInjections;
 using LojaServicos.DependencyInjections;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,7 +14,8 @@ builder.Services.AddControllersWithViews();
 builder.Services
     .AddServicesDependencyInjection()
     .AddRepositoriesDependencyInjection(builder.Configuration)
-    .AddMvcAutoMapper();
+    .AddMvcAutoMapper()
+    .AddLojaAuthentication();
 
 var app = builder.Build();
 
@@ -24,10 +27,11 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseRouting();
+app.UseHttpsRedirection()
+    .UseStaticFiles()
+    .UseRouting()
+    .UseSession()
+    .UseMiddleware<AutenticacaoMiddleware>();
 
 app.UseAuthorization();
 

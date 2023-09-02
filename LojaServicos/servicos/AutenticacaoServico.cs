@@ -28,4 +28,13 @@ public class AutenticacaoServico : IAutenticacaoServico
         var usuarioJson = JsonSerializer.Serialize(usuario);
         session.SetString("usuarioSessao", usuarioJson);
     }
+
+    public void Sair(ISession session)
+    {
+        var usuarioDaSessao = session.GetString("usuarioSessao");
+        if (usuarioDaSessao != null)
+        {
+            session.Remove("usuarioSessao");
+        }
+    }
 }

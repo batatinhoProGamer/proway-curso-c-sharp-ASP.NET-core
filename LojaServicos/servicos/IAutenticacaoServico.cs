@@ -6,4 +6,5 @@ namespace LojaServicos.servicos;
 public interface IAutenticacaoServico
 {
     void Autenticar(AutenticarDto autenticarDto, ISession session);
+    void Sair(ISession session);
 }
