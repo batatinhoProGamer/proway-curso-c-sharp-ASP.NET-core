@@ -1,6 +1,4 @@
-﻿using LojaRepositorios.entidades;
-
-namespace LojaRepositorios.repositorios
+﻿namespace LojaRepositorios.repositorios
 {
     public interface IRepositorioBase<TEntity>
     {

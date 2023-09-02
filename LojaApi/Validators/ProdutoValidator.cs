@@ -1,5 +1,4 @@
 ﻿using FluentValidation;
-using LojaApi.Controllers;
 using LojaApi.Models.Produto;
 
 namespace LojaApi.Validators

@@ -16,6 +16,7 @@ namespace LojaServicos.DependencyInjections
         {
             services.AddScoped<IProdutoServico, ProdutoServico>();
             services.AddScoped<IClienteServico, ClienteServico>();
+            services.AddScoped<IAutenticacaoServico, AutenticacaoServico>();
 
             return services;
         }

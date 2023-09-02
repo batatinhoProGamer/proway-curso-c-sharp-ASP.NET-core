@@ -6,16 +6,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LojaApi.Controllers
 {
-    [Route("/clientes")]
-    public class ClienteContoller : Controller
+    [Route("api/clientes")]
+    public class ClienteContoller : ControllerAuthenticatedBase
     {
         private readonly IClienteServico _clienteServico;
-        private readonly IMapper _mapper;
 
-        public ClienteContoller(IClienteServico clienteServico, IMapper mapper)
+        public ClienteContoller(IClienteServico clienteServico, IMapper mapper) : base(mapper)
         {
             _clienteServico = clienteServico;
-            _mapper = mapper;
         }
 
         [HttpGet]

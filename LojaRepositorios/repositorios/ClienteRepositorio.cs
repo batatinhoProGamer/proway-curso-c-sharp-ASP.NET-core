@@ -1,8 +1,5 @@
 ﻿using LojaRepositorios.database;
 using LojaRepositorios.entidades;
-using Microsoft.EntityFrameworkCore;
-using System.Data;
-using System.Globalization;
 
 namespace LojaRepositorios.repositorios
 {

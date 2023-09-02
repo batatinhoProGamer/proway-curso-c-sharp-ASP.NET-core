@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using LojaApi.Controllers;
+using LojaApi.Mappers;
 using LojaApi.Models.Cliente;
 using LojaApi.Models.Produto;
 using LojaServicos.Dtos.Clientes;
@@ -18,6 +18,7 @@ namespace LojaApi.DependencyInjections
                 x.CreateMap<ProdutoCreateModel, ProdutoCadastrarDto>();
                 x.CreateMap<ProdutoUpdateModel, ProdutoEditarDto>();
                 x.AddProfile<ClienteMapper>();
+                x.AddProfile<AutenticarMapper>();
             });
 
             var mapper = mapperConfiguration.CreateMapper();

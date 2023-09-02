@@ -32,6 +32,7 @@ namespace LojaRepositorios.database
         {
             modelBuilder.ApplyConfiguration(new ProdutoMapeamento());
             modelBuilder.ApplyConfiguration(new ClienteMapeamento());
+            modelBuilder.ApplyConfiguration(new UsuarioMapeamento());
         }
     }
 }

@@ -9,22 +9,20 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace LojaApi.Controllers
 {
-    [Route("produtos")]
-    public class ProdutoController : Controller
+    [Route("api/produtos")]
+    public class ProdutoController : ControllerAuthenticatedBase
     {
         private readonly IProdutoServico _produtoServico;
         private readonly IValidator<ProdutoCreateModel> _produtoValidator;
-        private readonly IMapper _mapper;
 
         public ProdutoController(
             IProdutoServico produtoServico,
             IValidator<ProdutoCreateModel> produtoValidator,
             IMapper mapper
-            )
+            ) : base(mapper)
         {
             _produtoServico = produtoServico;
             _produtoValidator = produtoValidator;
-            _mapper = mapper;
         }
 
         [HttpGet]

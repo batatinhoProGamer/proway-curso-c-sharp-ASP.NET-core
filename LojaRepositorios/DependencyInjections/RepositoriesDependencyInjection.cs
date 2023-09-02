@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LojaServicos.DependencyInjections
+namespace LojaRepositorios.DependencyInjections
 {
     public static class RepositoriesDependencyInjection
     {
@@ -21,6 +21,7 @@ namespace LojaServicos.DependencyInjections
         {
             services.AddScoped<IClienteRepositorio, ClienteRepositorio>();
             services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
+            services.AddScoped<IUsuarioRepositorio, UsuarioRepositorio>();
 
             return services;
         }

@@ -1,5 +1,6 @@
 using LojaMvc.DependencyInjections;
 using LojaRepositorios.database;
+using LojaRepositorios.DependencyInjections;
 using LojaServicos.DependencyInjections;
 using Microsoft.EntityFrameworkCore;
 

@@ -5,7 +5,6 @@ using LojaServicos.servicos;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System.Net;
-using System.Runtime.ConstrainedExecution;
 
 namespace LojaMvc.Controllers
 {
