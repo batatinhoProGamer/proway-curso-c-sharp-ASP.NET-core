@@ -12,6 +12,12 @@ namespace LojaRepositorios.Mapeamentos
 
             builder.HasKey(x => x.Id);
 
+            builder.Property(x => x.Ativo)
+                .HasColumnType("BIT")
+                .HasDefaultValue(true)
+                .IsRequired()
+                .HasColumnName("Ativo");
+
             builder.Property(x => x.Nome)
                 .HasColumnType("VARCHAR")
                 .HasMaxLength(100)

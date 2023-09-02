@@ -1,7 +1,8 @@
 ﻿namespace LojaRepositorios.entidades
 {
-    public class ModeloBase
+    public class EntidadeBase
     {
         public int Id { get; set; }
+        public bool? Ativo { get; set; }
     }
 }

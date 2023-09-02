@@ -24,12 +24,12 @@ namespace LojaServicos.servicos
             if (clienteExistenteComCpf != null)
                 throw new Exception($"Cliente já cadastrado com CPF {dto.Cpf}");
 
-            _clienteRepositorio.Cadastrar(cliente);
+            _clienteRepositorio.Add(cliente);
         }
 
         public void Apagar(int id)
         {
-            _clienteRepositorio.Apagar(id);
+            _clienteRepositorio.DeleteLogic(id);
         }
 
         public List<ClienteIndexDto> ObterTodos(string? pesquisa)
@@ -53,12 +53,12 @@ namespace LojaServicos.servicos
 
         public Cliente? ObterPorId(int id)
         {
-            return _clienteRepositorio.ObterPorId(id);
+            return _clienteRepositorio.GetById(id);
         }
 
         public void Editar(Cliente cliente)
         {
-            _clienteRepositorio.Editar(cliente);
+            _clienteRepositorio.Update(cliente);
         }
     }
 }

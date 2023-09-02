@@ -2,12 +2,8 @@
 
 namespace LojaRepositorios.repositorios
 {
-    public interface IProdutoRepositorio
+    public interface IProdutoRepositorio : IRepositorioBase<Produto>
     {
-        int Cadastrar(Produto produto);
-        void Editar(Produto produto);
-        void Apagar(int id);
         List<Produto> ObterTodos(string pesquisa);
-        Produto? ObterPorId(int id);
     }
 }

@@ -2,14 +2,9 @@
 
 namespace LojaRepositorios.repositorios
 {
-    public interface IClienteRepositorio
+    public interface IClienteRepositorio : IRepositorioBase<Cliente>
     {
-        void Cadastrar(Cliente cliente);
-        void Apagar(int id);
         List<Cliente> ObterTodos(string? pesquisa);
-        Cliente? ObterPorId(int id);
-        void Editar(Cliente cliente);
         Cliente? ObterPorCpf(string Cpf);
-        bool ExisteComCpf(string Cpf);
     }
 }

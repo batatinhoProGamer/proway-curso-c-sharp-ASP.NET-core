@@ -17,8 +17,8 @@ namespace LojaServicos.servicos
         public int Cadastrar(ProdutoCadastrarDto dto)
         {
             var produto = ConstruirProduto(dto);
-            var id = _produtoRepositorio.Cadastrar(produto);
-            return id;
+            produto = _produtoRepositorio.Add(produto);
+            return produto.Id;
         }
 
         public List<ProdutoIndexDto> ObterTodos(string filtro)
@@ -33,14 +33,12 @@ namespace LojaServicos.servicos
 
         public void Apagar(int id)
         {
-            // Instanciando um objeto da class ProdutoRepositorio
-            // Chamar o método Apagar do ProdutoRepositorio(que irá executar o DELETE)
-            _produtoRepositorio.Apagar(id);
+            _produtoRepositorio.DeleteLogic(id);
         }
 
         public ProdutoIndexDto? ObterPorId(int id)
         {
-            var produto = _produtoRepositorio.ObterPorId(id);
+            var produto = _produtoRepositorio.GetById(id);
 
             if (produto == null)
             {
@@ -51,13 +49,13 @@ namespace LojaServicos.servicos
 
         public void Editar(ProdutoEditarDto dto)
         {
-            var produto = _produtoRepositorio.ObterPorId(dto.Id);
+            var produto = _produtoRepositorio.GetById(dto.Id);
             
             if (produto == null)
                 throw new EntidadeNaoEncontrada();
 
             produto = AtualizarProduto(dto, produto);
-            _produtoRepositorio.Editar(produto);
+            _produtoRepositorio.Update(produto);
         }
 
         private List<ProdutoIndexDto> ConstruirProdutoIndexDto(List<Produto> produtos)

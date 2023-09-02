@@ -13,6 +13,12 @@ namespace LojaRepositorios.Mapeamentos
             builder.ToTable("produtos");
 
             builder.HasKey(x => x.Id);
+            
+            builder.Property(x => x.Ativo)
+                .HasColumnType("BIT")
+                .HasDefaultValue(true)
+                .IsRequired()
+                .HasColumnName("Ativo");
 
             builder.Property(X => X.Nome)
                 .HasColumnType("VARCHAR")

@@ -21,7 +21,7 @@ namespace LojaRepositorios.database
              * dotnet tool search dotnet-ef --detail 
              * 
              * - Criar migration
-             * dotnet ef migrations add CreateClientAndProductTable --project LojaRepositorios --startup-project LojaApi
+             * dotnet ef migrations add AddColumnActiveToAllTable --project LojaRepositorios --startup-project LojaApi
              * 
              * - Remover última migration
              * dotnet ef migrations remove --project LojaRepositorios --startup-project LojaApi
